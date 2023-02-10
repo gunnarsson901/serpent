@@ -10,7 +10,9 @@ canvas.style.border = "10px solid green";
 const bgColor = '#FFFFFF';
 
 // Snake style
-const Sbody = "#F02010"
+const sBody = "#F02010"
+const sHead = "#F020FF"
+
 
 // Canvas dinensions
 const width = canvas.width;
@@ -19,7 +21,8 @@ const height = canvas.height;
 // Runs while game is running
 let gameLoop;
 
-const square = 20;
+// size of custom pixel in canvas
+const sqrSize = 20;
 
 function drawBoard() {
     ctx.fillStyle = bgColor;
@@ -28,9 +31,24 @@ function drawBoard() {
 
 function drawSquare(x, y, color) {
     ctx.fillStyle = color;
-    ctx.fillRect(x * square, y * square, square, square);
+    ctx.fillRect(x * sqrSize, y * sqrSize, sqrSize, sqrSize);
     ctx.strokeStyle = bgColor;
-    ctx.strokeRect(x * square, y * square, square, square); 
+    ctx.strokeRect(x * sqrSize, y * sqrSize, sqrSize, sqrSize); 
+}
+
+// Snake
+let snake = [
+    {x:2, y:0}, // Head
+    {x:1, y:0}, // Body
+    {x:0, y:0} // Tail
+]
+
+function drawSnake() {
+    snake.forEach((square, i) => {
+        // the first object in the array gets sHead color and the rest get sBody
+        const color = i === 0 ? sHead : sBody;
+        drawSquare(square.x, square.y, color);
+    });
 }
 
 function drawFood() {
@@ -40,10 +58,9 @@ function drawFood() {
 // Loops through game functions
 function frame() {
     drawBoard();
-    drawSquare(10, 0, Sbody)
     // drawFood();
     // moveSnake();
-    // drawSnake();
+    drawSnake();
     // displayScore();
 }
 
