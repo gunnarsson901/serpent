@@ -13,6 +13,8 @@ const bgColor = '#FFFFFF';
 const sBody = "#F02010"
 const sHead = "#F020FF"
 
+// Directions
+let currentDirection = "";
 
 // Canvas dinensions
 const width = canvas.width;
@@ -74,6 +76,34 @@ function generateFood() {
 function drawFood() {
     drawSquare(food.x, food.y, 'red')
 }
+
+function moveSnake() {
+    // spreads value of first object in snake array and saves it to head
+    const head = { ...snake[0]};
+    switch(currentDirection) {
+        case 'ArrowRight':
+            head.x += 1;
+            break;
+        case 'ArrowLeft':
+            head.x -= 1;
+            break; 
+            case 'ArrowDown':
+                head.y -= 1;
+                break; 
+            case 'ArrowUp':
+                head.y += 1;
+                break; 
+            }
+            // Removes last object from snake array
+            snake.pop();
+
+            // Adds new head object in snake array
+            snake.unshift(head);
+}
+
+document.addEventListener('DOMContentLoaded' function() {
+    
+})
 
 // Loops through game functions
 function frame() {
