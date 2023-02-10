@@ -51,17 +51,38 @@ function drawSnake() {
     });
 }
 
-function drawFood() {
+// Amount of squares on x and y axis
+const horizontalSq = width / sqrSize;
+const verticalSq = height / sqrSize;
 
+let food = generateFood();
+function generateFood() {
+    let food = {
+        x: Math.floor(Math.random() * horizontalSq),
+        y: Math.floor(Math.random() * verticalSq),
+    };
+    return food;
+    while(snake.some(square => square.x === food.x && square.y === food.y)) {
+    let food = {   
+        x: Math.floor(Math.random() * horizontalSq),
+        y: Math.floor(Math.random() * verticalSq),
+    };
+    return food;
+    }
+}
+
+function drawFood() {
+    drawSquare(food.x, food.y, 'red')
 }
 
 // Loops through game functions
 function frame() {
     drawBoard();
-    // drawFood();
+    drawFood();
     // moveSnake();
     drawSnake();
     // displayScore();
 }
 
+// runs the function "frames" 1000/15 milliseconds
 gameLoop = setInterval(frame, frames);
