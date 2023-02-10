@@ -33,6 +33,7 @@ function drawBoard() {
     ctx.fillRect(0, 0, width, height);
 }
 
+// Draw square, wich is used as pixel in game 
 function drawSquare(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * sqSize, y * sqSize, sqSize, sqSize);
@@ -109,10 +110,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keyup', setDirection);
     function setDirection(event) {
         const newDirection = event.key;
+        const oldDirection = currentDirection;
+        // Hinders snake from moving in opposit direction
+        
         if(!gameRunning) {
             gameRunning = true;
             gameLoop = setInterval(frame, frames);
-            
         }
         currentDirection = newDirection;
     }

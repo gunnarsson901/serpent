@@ -28,10 +28,13 @@ A basic understanding of HTML, CSS and JavaScript is required to understand and 
 
 [Felix Da Silva Gunnarsson](https://www.linkedin.com/in/felix-gunnarsson-9352501a4/)
 
+## Errors
+- When a key that is not an arrow is pressed the snake freezes
+- The snake can move in the opposit direction
 
 ## Acknowledgments
 
-- The code was created as an example for learning purposes.
+- The code was created to learn the basic concepts of JS.
 
 ## Credits
 
