@@ -20,11 +20,13 @@ let currentDirection = "";
 const width = canvas.width;
 const height = canvas.height;
 
-// Runs while game is running
+let gameRunning = false;
+
+// Main loop
 let gameLoop;
 
 // size of custom pixel in canvas
-const sqrSize = 20;
+const sqSize = 20;
 
 function drawBoard() {
     ctx.fillStyle = bgColor;
@@ -33,9 +35,9 @@ function drawBoard() {
 
 function drawSquare(x, y, color) {
     ctx.fillStyle = color;
-    ctx.fillRect(x * sqrSize, y * sqrSize, sqrSize, sqrSize);
+    ctx.fillRect(x * sqSize, y * sqSize, sqSize, sqSize);
     ctx.strokeStyle = bgColor;
-    ctx.strokeRect(x * sqrSize, y * sqrSize, sqrSize, sqrSize); 
+    ctx.strokeRect(x * sqSize, y * sqSize, sqSize, sqSize); 
 }
 
 // Snake
@@ -54,8 +56,8 @@ function drawSnake() {
 }
 
 // Amount of squares on x and y axis
-const horizontalSq = width / sqrSize;
-const verticalSq = height / sqrSize;
+const horizontalSq = width / sqSize;
+const verticalSq = height / sqSize;
 
 let food = generateFood();
 function generateFood() {
@@ -63,14 +65,13 @@ function generateFood() {
         x: Math.floor(Math.random() * horizontalSq),
         y: Math.floor(Math.random() * verticalSq),
     };
-    return food;
     while(snake.some(square => square.x === food.x && square.y === food.y)) {
     let food = {   
         x: Math.floor(Math.random() * horizontalSq),
         y: Math.floor(Math.random() * verticalSq),
     };
-    return food;
-    }
+}
+return food;
 }
 
 function drawFood() {
@@ -78,8 +79,9 @@ function drawFood() {
 }
 
 function moveSnake() {
+    if(!gameRunning) return;
     // spreads value of first object in snake array and saves it to head
-    const head = { ...snake[0]};
+    const head = {...snake[0]};
     switch(currentDirection) {
         case 'ArrowRight':
             head.x += 1;
@@ -87,13 +89,14 @@ function moveSnake() {
         case 'ArrowLeft':
             head.x -= 1;
             break; 
-            case 'ArrowDown':
-                head.y -= 1;
-                break; 
-            case 'ArrowUp':
-                head.y += 1;
-                break; 
+        case 'ArrowDown':
+            head.y += 1;
+            break; 
+        case 'ArrowUp':
+            head.y -= 1;
+            break; 
             }
+
             // Removes last object from snake array
             snake.pop();
 
@@ -101,18 +104,28 @@ function moveSnake() {
             snake.unshift(head);
 }
 
-document.addEventListener('DOMContentLoaded' function() {
-    
+// waits for the page to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('keyup', setDirection);
+    function setDirection(event) {
+        const newDirection = event.key;
+        if(!gameRunning) {
+            gameRunning = true;
+            gameLoop = setInterval(frame, frames);
+            
+        }
+        currentDirection = newDirection;
+    }
 })
 
 // Loops through game functions
 function frame() {
     drawBoard();
     drawFood();
-    // moveSnake();
+    moveSnake();
     drawSnake();
     // displayScore();
 }
 
-// runs the function "frames" 1000/15 milliseconds
-gameLoop = setInterval(frame, frames);
+// runs the function "frame" 1000/15 milliseconds
+frame();
